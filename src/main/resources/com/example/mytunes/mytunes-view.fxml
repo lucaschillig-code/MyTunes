@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MyTunesController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fx:id="playlisterTitel" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlister" translateX="60.0" wrappingWidth="92.95550537109375">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </Text>
+            <Text fx:id="valgtePlaylistTitel" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlistenavn" translateX="190.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Text>
+            <Text fx:id="sangeTitel" strokeType="OUTSIDE" strokeWidth="0.0" text="Sange" textAlignment="CENTER" translateX="300.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Text>
+            <HBox prefHeight="42.0" prefWidth="122.0" translateX="330.0">
+               <children>
+                  <Text fx:id="søgSangTitel" strokeType="OUTSIDE" strokeWidth="0.0" text="Søg:">
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextField fx:id="søgSangTekstfelt" minHeight="-Infinity" prefHeight="20.0" prefWidth="90.0" text="Søg sang...">
+                     <HBox.margin>
+                        <Insets left="3.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="7.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="371.0" prefWidth="683.0">
+         <children>
+            <TableView fx:id="playlisteTableview" maxHeight="-Infinity" prefHeight="353.0" prefWidth="247.0">
+              <columns>
+                <TableColumn fx:id="playlisteNavnKolonne" prefWidth="102.9371280670166" text="Navn" />
+                <TableColumn fx:id="playlisteAntalSangeKolonne" prefWidth="78.56285858154297" text="Sange" />
+                  <TableColumn fx:id="playlisteTidKolonne" prefWidth="49.49998474121094" text="Tid" />
+              </columns>
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </TableView>
+            <TableView fx:id="playlistSangeTableview" prefHeight="353.0" prefWidth="239.0">
+              <columns>
+                <TableColumn fx:id="playlisteSangeKolonne" prefWidth="233.0" text="Sange i playlist" />
+              </columns>
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </TableView>
+            <TableView fx:id="sangeTableview" maxHeight="-Infinity" prefHeight="353.0" prefWidth="273.0">
+              <columns>
+                <TableColumn fx:id="sangKolonne" prefWidth="104.51370239257812" text="Sang" />
+                <TableColumn fx:id="kunstnerKolonne" prefWidth="101.486328125" text="Kunster" />
+                  <TableColumn fx:id="sangTidKolonne" prefWidth="51.0" text="Tid" />
+              </columns>
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </TableView>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ButtonBar prefHeight="82.0" prefWidth="235.0">
+              <buttons>
+                <Button fx:id="nyPlaylisteID" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="59.0" mnemonicParsing="false" onAction="#nyPlayliste" prefHeight="0.0" prefWidth="70.0" text="Ny" />
+                  <Button fx:id="redigerPlaylisteID" mnemonicParsing="false" onAction="#redigerPlayliste" text="Rediger" />
+                  <Button fx:id="sletPlaylisteID" mnemonicParsing="false" onAction="#sletPlayliste" text="Slet" />
+              </buttons>
+            </ButtonBar>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button fx:id="sletSangPlaylistID" alignment="CENTER" mnemonicParsing="false" onAction="#sletSangPlaylist" text="Slet" textAlignment="CENTER" translateX="-60.0" />
+              </buttons>
+            </ButtonBar>
+            <ButtonBar prefHeight="82.0" prefWidth="290.0">
+               <buttons>
+                  <Button fx:id="nySangID" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="59.0" mnemonicParsing="false" onAction="#nySang" prefHeight="26.0" prefWidth="70.0" text="Ny" />
+                  <Button fx:id="redigerSangID" mnemonicParsing="false" onAction="#redigerSang" text="Rediger" />
+                  <Button fx:id="sletSangID" mnemonicParsing="false" onAction="#sletSang" text="Slet" />
+               </buttons>
+            </ButtonBar>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <HBox minWidth="-Infinity" prefHeight="70.0" prefWidth="180.0">
+               <children>
+                  <ImageView fx:id="sangBillede" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sang">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kunstner" />
+                     </children>
+                  </VBox>
+                  <VBox minWidth="-Infinity" prefHeight="70.0" prefWidth="297.0" translateX="100.0">
+                     <children>
+                        <HBox prefHeight="29.0" prefWidth="297.0">
+                           <children>
+                              <Button fx:id="forrigeKnapID" minHeight="-Infinity" mnemonicParsing="false" onAction="#forrigeKnap" prefHeight="20.0" prefWidth="55.0" text="Forrige sang" />
+                              <Button fx:id="startKnapID" minHeight="-Infinity" mnemonicParsing="false" onAction="#startPauseKnap" prefHeight="21.0" prefWidth="54.0" text="Pause" translateX="50.0" />
+                              <Button fx:id="næsteKnapID" minHeight="-Infinity" mnemonicParsing="false" onAction="#næsteKnap" prefHeight="21.0" prefWidth="53.0" text="Næstesang" translateX="100.0" />
+                           </children>
+                        </HBox>
+                        <Slider fx:id="tidSlider" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Slider fx:id="volumeSlider" prefHeight="63.0" prefWidth="185.0" translateX="360.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
