@@ -1,6 +1,8 @@
 module com.example.mytunes {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
+    requires javafx.media;
 
 
     opens com.example.mytunes to javafx.fxml;

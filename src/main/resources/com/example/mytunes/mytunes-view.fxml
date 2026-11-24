@@ -13,7 +13,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MyTunesController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
@@ -81,7 +80,7 @@
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
             </TableView>
-            <TableView fx:id="sangeTableview" maxHeight="-Infinity" prefHeight="353.0" prefWidth="273.0">
+            <TableView fx:id="sangeTableview" maxHeight="-Infinity" onMouseClicked="#sangHøjreKlik" prefHeight="353.0" prefWidth="273.0">
               <columns>
                 <TableColumn fx:id="sangKolonne" prefWidth="104.51370239257812" text="Sang" />
                 <TableColumn fx:id="kunstnerKolonne" prefWidth="101.486328125" text="Kunster" />

@@ -7,8 +7,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-
 
 public class MyTunesController {
 
@@ -107,6 +113,7 @@ public class MyTunesController {
         kunstnerKolonne.setCellValueFactory(new PropertyValueFactory<Sang, String>("sangKunstner"));
         sangTidKolonne.setCellValueFactory(new PropertyValueFactory<Sang, Integer>("sangTid"));
 
+
         playlisteNavnKolonne.setCellValueFactory(new PropertyValueFactory<Playliste, String>("playlisteNavn"));
         playlisteTidKolonne.setCellValueFactory(new PropertyValueFactory<Playliste, Integer>("samlagtTid"));
         playlisteAntalSangeKolonne.setCellValueFactory(new PropertyValueFactory<Playliste, Integer>("antalSange"));
@@ -115,7 +122,6 @@ public class MyTunesController {
         sangObsListe.add(new Sang("Baby", "Justin Bieber", 223, "12"));
         Playliste p1 = new Playliste("Groovy", 0, 0);
         playlisteObsListe.add(new Playliste("Groovy", 0, 0));
-
 
 
         playlisteTableview.setItems(playlisteObsListe);
@@ -176,9 +182,28 @@ public class MyTunesController {
     void sletSangPlaylist(ActionEvent event) {
 
     }
-
+    private static MediaPlayer mediaPlayer;
     @FXML
     void startPauseKnap(ActionEvent event) {
+        try {
+            Media lyd = new Media(String.valueOf(getClass().getResource("sample-3s.mp3")));
+            mediaPlayer = new MediaPlayer(lyd);
+            mediaPlayer.seek(mediaPlayer.getStartTime());
+            mediaPlayer.play();
+
+        } catch (Exception e) {
+            System.out.println("Fejl: " + e.getMessage());
+        }
+    }
+
+    public void sangHøjreKlik(MouseEvent mouseEvent) {
+        //spørg erik
+        TableRow<Sang> række = new TableRow<>();
+        ContextMenu cm = new ContextMenu();
+        MenuItem afspil = new MenuItem("Afspil sang");
+        MenuItem tilføjTilPlayliste = new MenuItem("Tilføj til playliste");
+        cm.getItems().addAll(afspil, tilføjTilPlayliste);
+        cm.show(række,mouseEvent.getX(),mouseEvent.getY());
 
     }
 }
