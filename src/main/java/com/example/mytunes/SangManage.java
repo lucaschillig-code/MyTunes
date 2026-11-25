@@ -1,9 +1,6 @@
 package com.example.mytunes;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -14,19 +11,23 @@ import java.util.Optional;
 public class SangManage extends Dialogvindue {
 
     private MyTunesController myTunesController;
-    public SangManage (MyTunesController myTunesController) {
+
+
+    private ComboBox<Playliste> playlisteComboBox;
+    private ComboBox<String> genreComboBox = new ComboBox<>();
+    private TextField titelfelt = new TextField();
+    private TextField tidsfelt = new TextField();
+    private TextField mp3felt = new TextField();
+    private TextField kunstnerfelt = new TextField();
+
+    public SangManage(MyTunesController myTunesController) {
+        this.myTunesController = myTunesController;
     }
 
-    /*
     public void tilføjSang() {
         dialogvindue();
-        ComboBox<Playliste> playlisteComboBox = new ComboBox<>(playlisteObsListe);
-        ComboBox<String> genreComboBox = new ComboBox<>();
 
-        TextField titelfelt = new TextField();
-        TextField tidsfelt = new TextField();
-        TextField mp3felt = new TextField();
-        TextField kunstnerfelt = new TextField();
+        playlisteComboBox = new ComboBox<>(myTunesController.playlisteObsListe);
         genreComboBox.getItems().addAll("POP", "Rock", "Country", "techno");
         genreComboBox.setPromptText("Vælg genre");
         mp3felt.setEditable(false);
@@ -46,8 +47,8 @@ public class SangManage extends Dialogvindue {
             }
         });
 
-        dialogvindue.getDialogPane().setContent(new VBox(10, titelfelt, kunstnerfelt, tidsfelt, genreComboBox, playlisteComboBox, new HBox(5, mp3felt, mp3knap)));
-        Optional<ButtonType> knap = dialogvindue.showAndWait();
+        dialog.getDialogPane().setContent(new VBox(10, titelfelt, kunstnerfelt, tidsfelt, genreComboBox, playlisteComboBox, new HBox(5, mp3felt, mp3knap)));
+        Optional<ButtonType> knap = dialog.showAndWait();
 
         if (knap.isPresent() && knap.get() == ButtonType.OK) {
             try {
@@ -55,15 +56,13 @@ public class SangManage extends Dialogvindue {
                 Playliste valgtPlayliste = playlisteComboBox.getValue();
                 if (valgtPlayliste == null) return;
                 Sang ny = new Sang(titelfelt.getText(), kunstnerfelt.getText(), tid, mp3felt.getText());
-                sangObsListe.add(ny);
+                myTunesController.sangObsListe.add(ny);
                 valgtPlayliste.tilføjSang(ny);
             } catch (NumberFormatException e) {
                 System.out.println("tid skal være et helt tal");
             }
         }
     }
-
-     */
 
     @Override
     void gem() {

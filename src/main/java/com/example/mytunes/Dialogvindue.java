@@ -8,6 +8,7 @@ import java.io.File;
 
 public abstract class Dialogvindue {
 
+    protected Dialog<ButtonType> dialog;
 
 
     public void dialogvindue() {

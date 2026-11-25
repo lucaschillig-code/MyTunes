@@ -19,7 +19,7 @@ public class Playliste {
     }
 
     public int getAntalSange() {
-        return sange.toArray().length;
+        return sange.size();
     }
 
     public void setAntalSange(int antalSange) {

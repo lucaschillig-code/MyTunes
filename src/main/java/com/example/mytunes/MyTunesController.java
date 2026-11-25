@@ -7,13 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.util.Optional;
 
 public class MyTunesController {
 
@@ -104,8 +99,8 @@ public class MyTunesController {
     @FXML
     private Slider volumeSlider;
 
-    private final ObservableList<Sang> sangObsListe = FXCollections.observableArrayList();
-    private final ObservableList<Playliste> playlisteObsListe = FXCollections.observableArrayList();
+    public final ObservableList<Sang> sangObsListe = FXCollections.observableArrayList();
+    public final ObservableList<Playliste> playlisteObsListe = FXCollections.observableArrayList();
 
     public void initialize() {
         sangKolonne.setCellValueFactory(new PropertyValueFactory<Sang, String>("sangTitel"));
@@ -146,53 +141,10 @@ public class MyTunesController {
     @FXML
     void nySang(ActionEvent event) {
 
-        Dialog<ButtonType> dialogvindue = new Dialog<>();
-        dialogvindue.setTitle("Tilføj sang");
-        dialogvindue.setHeaderText("Ny sang");
-        dialogvindue.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-
-        ComboBox<Playliste> playlisteComboBox = new ComboBox<>(playlisteObsListe);
-        ComboBox<String> genreComboBox = new ComboBox<>();
-
-        TextField titelfelt = new TextField();
-        TextField tidsfelt = new TextField();
-        TextField mp3felt = new TextField();
-        TextField kunstnerfelt = new TextField();
-        genreComboBox.getItems().addAll("POP", "Rock", "Country", "techno");
-        genreComboBox.setPromptText("Vælg genre");
-        mp3felt.setEditable(false);
-        mp3felt.setPromptText("vælg MP3");
-        kunstnerfelt.setPromptText("Kunstner:");
-        titelfelt.setPromptText("Titel:");
-        playlisteComboBox.setPromptText("Vælg playliste");
-        tidsfelt.setPromptText("Varighed:");
-
-        Button mp3knap = new Button("Vælg fil");
-        mp3knap.setOnAction(e -> {
-            FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File("src/main/resources/com/example/mytunes/MP3"));
-            File valgt = fc.showOpenDialog(mp3knap.getScene().getWindow());
-            if (valgt != null) {
-                mp3felt.setText(valgt.getName());
-            }
-        });
-
-        dialogvindue.getDialogPane().setContent(new VBox(10, titelfelt, kunstnerfelt, tidsfelt, genreComboBox, playlisteComboBox, new HBox(5, mp3felt, mp3knap)));
-        Optional<ButtonType> knap = dialogvindue.showAndWait();
-
-        if (knap.isPresent() && knap.get() == ButtonType.OK) {
-            try {
-                int tid = Integer.parseInt(tidsfelt.getText());
-                Playliste valgtPlayliste = playlisteComboBox.getValue();
-                if (valgtPlayliste == null) return;
-                Sang ny = new Sang(titelfelt.getText(), kunstnerfelt.getText(), tid, mp3felt.getText());
-                sangObsListe.add(ny);
-                valgtPlayliste.tilføjSang(ny);
-            } catch (NumberFormatException e) {
-                System.out.println("tid skal være et helt tal");
-            }
-        }
+        SangManage.tilføjSang();
     }
+
+
 
     @FXML
     void næsteKnap(ActionEvent event) {
