@@ -6,20 +6,30 @@ import javafx.collections.ObservableList;
 public class Playliste {
 
     private String playlisteNavn;
-    private int antalSange;
-    private int samlagtTid;
+    private int samlagtTid = 0;
     private int rækkefølge = 1;
+    private int tid;
 
-    private ObservableList<PlaylisteSange> sange = FXCollections.observableArrayList();
+    public ObservableList<PlaylisteSange> sange = FXCollections.observableArrayList();
+    private int antalSange = 0;
 
-    public Playliste(String playlisteNavn, int antalSange, int samlagtTid) {
+
+    public Playliste(String playlisteNavn, int antalSange, int tid) {
         this.playlisteNavn = playlisteNavn;
         this.antalSange = antalSange;
-        this.samlagtTid = samlagtTid;
+        this.samlagtTid = tid;
     }
 
     public int getAntalSange() {
         return sange.size();
+    }
+
+    public void setTid(int tid) {
+        this.tid = tid;
+    }
+
+    public int getTid() {
+        return tid;
     }
 
     public void setAntalSange(int antalSange) {
@@ -46,9 +56,18 @@ public class Playliste {
         return sange;
     }
 
+    public int antalSangePlus() {
+        antalSange++;
+        return antalSange;
+    }
+
+    public int TidPlus() {
+        samlagtTid += tid;
+        return samlagtTid;
+    }
+
     public void tilføjSang(Sang nysang) {
         sange.add(new PlaylisteSange(rækkefølge + ". " + nysang.getSangTitel() + " - " + nysang.getSangKunstner()));
-        samlagtTid += nysang.getSangTid();
         rækkefølge++;
     }
 
