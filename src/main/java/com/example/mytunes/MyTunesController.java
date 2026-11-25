@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -15,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+
+import java.util.Optional;
 
 public class MyTunesController {
 
@@ -104,7 +107,7 @@ public class MyTunesController {
 
     @FXML
     private Slider volumeSlider;
-
+    boolean højreKlikCheck = true;
     public final ObservableList<Sang> sangObsListe = FXCollections.observableArrayList();
     public final ObservableList<Playliste> playlisteObsListe = FXCollections.observableArrayList();
 
@@ -119,6 +122,7 @@ public class MyTunesController {
         playlisteAntalSangeKolonne.setCellValueFactory(new PropertyValueFactory<Playliste, Integer>("antalSange"));
         playlisteSangeKolonne.setCellValueFactory(new PropertyValueFactory<PlaylisteSange, String>("sangInfoPlayliste"));
 
+        sangObsListe.add(new Sang("Baby", "Justin Bieber", 223, "12"));
         sangObsListe.add(new Sang("Baby", "Justin Bieber", 223, "12"));
         Playliste p1 = new Playliste("Groovy", 0, 0);
         playlisteObsListe.add(new Playliste("Groovy", 0, 0));
@@ -149,8 +153,7 @@ public class MyTunesController {
 
         new SangManage(this).tilføjSang();
 
-        }
-
+    }
 
 
     @FXML
@@ -182,7 +185,9 @@ public class MyTunesController {
     void sletSangPlaylist(ActionEvent event) {
 
     }
+
     private static MediaPlayer mediaPlayer;
+
     @FXML
     void startPauseKnap(ActionEvent event) {
         try {
@@ -195,15 +200,37 @@ public class MyTunesController {
             System.out.println("Fejl: " + e.getMessage());
         }
     }
+    @FXML
+    void sangHøjreKlik(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseButton.SECONDARY && højreKlikCheck) {
+            if (sangeTableview.getSelectionModel().getSelectedItem() != null) {
+                Sang s = sangeTableview.getSelectionModel().getSelectedItem();
+                ContextMenu menu = new ContextMenu();
+                MenuItem miSpilSang = new MenuItem("Afspil sang");
+                MenuItem miTilføjTilPlayliste = new MenuItem("Tilføj til playliste");
+                MenuItem miRedigerSang = new MenuItem("Rediger sang");
+                MenuItem miSletSang = new MenuItem("Slet sang");
 
-    public void sangHøjreKlik(MouseEvent mouseEvent) {
-        //spørg erik
-        TableRow<Sang> række = new TableRow<>();
-        ContextMenu cm = new ContextMenu();
-        MenuItem afspil = new MenuItem("Afspil sang");
-        MenuItem tilføjTilPlayliste = new MenuItem("Tilføj til playliste");
-        cm.getItems().addAll(afspil, tilføjTilPlayliste);
-        cm.show(række,mouseEvent.getX(),mouseEvent.getY());
+                højreKlikCheck = false;
 
+                miSpilSang.setOnAction(event -> {
+                    Media lyd = new Media(String.valueOf(getClass().getResource("sample-3s.mp3")));
+                    mediaPlayer = new MediaPlayer(lyd);
+                    mediaPlayer.seek(mediaPlayer.getStartTime());
+                    mediaPlayer.play();
+                    højreKlikCheck = true;
+
+                });
+                miTilføjTilPlayliste.setOnAction(event -> {
+                    højreKlikCheck = true;
+                });
+
+                menu.getItems().addAll(miSpilSang,miTilføjTilPlayliste );
+
+
+                // Placer dialog hvor musen er, dvs ved rækken
+                menu.show(sangeTableview, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+            }
+        }
     }
 }
