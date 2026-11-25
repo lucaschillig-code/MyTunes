@@ -243,21 +243,23 @@ public class MyTunesController {
                     højreKlikCheck = true;
                 });
 
-                menu.getItems().addAll(miSpilSang,miTilføjTilPlayliste );
+                menu.getItems().addAll(miSpilSang, miTilføjTilPlayliste);
                 menu.show(sangeTableview, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-    }
-
-    private void redigerLinjeSang(Sang s) {
-
-        new SangManage(this).redigerSang(s);
-
-    }
-
-    private void redigerLinjePlayliste(Playliste p) {
-
-        new PlaylisteManage(this, p).redigerSang(p);
-
             }
         }
     }
-}
+
+            private void redigerLinjeSang (Sang s){
+
+                new SangManage(this).redigerSang(s);
+
+            }
+
+            private void redigerLinjePlayliste (Playliste p){
+
+                new PlaylisteManage(this, p).redigerSang(p);
+
+
+            }
+
+        }
