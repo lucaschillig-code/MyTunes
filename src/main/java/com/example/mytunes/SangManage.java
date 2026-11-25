@@ -12,7 +12,6 @@ public class SangManage extends Dialogvindue {
 
     private MyTunesController myTunesController;
 
-
     private ComboBox<Playliste> playlisteComboBox;
     private ComboBox<String> genreComboBox = new ComboBox<>();
     private TextField titelfelt = new TextField();
@@ -25,14 +24,17 @@ public class SangManage extends Dialogvindue {
     }
 
     public void tilføjSang() {
-        dialogvindue();
+        Dialog<ButtonType> dialogvindue = new Dialog<>();
+        dialogvindue.setTitle("Tilføj sang");
+        dialogvindue.setHeaderText("Ny sang");
+        dialogvindue.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         playlisteComboBox = new ComboBox<>(myTunesController.playlisteObsListe);
         genreComboBox.getItems().addAll("POP", "Rock", "Country", "techno");
         genreComboBox.setPromptText("Vælg genre");
         mp3felt.setEditable(false);
         mp3felt.setPromptText("vælg MP3");
-        kunstnerfelt.setPromptText("Kunstner:");
+       kunstnerfelt.setPromptText("Kunstner:");
         titelfelt.setPromptText("Titel:");
         playlisteComboBox.setPromptText("Vælg playliste");
         tidsfelt.setPromptText("Varighed:");
@@ -47,17 +49,22 @@ public class SangManage extends Dialogvindue {
             }
         });
 
-        dialog.getDialogPane().setContent(new VBox(10, titelfelt, kunstnerfelt, tidsfelt, genreComboBox, playlisteComboBox, new HBox(5, mp3felt, mp3knap)));
-        Optional<ButtonType> knap = dialog.showAndWait();
+        dialogvindue.getDialogPane().setContent(new VBox(10, titelfelt, kunstnerfelt, tidsfelt, genreComboBox, playlisteComboBox, new HBox(5, mp3felt, mp3knap)));
+        Optional<ButtonType> knap = dialogvindue.showAndWait();
 
         if (knap.isPresent() && knap.get() == ButtonType.OK) {
             try {
-                int tid = Integer.parseInt(tidsfelt.getText());
+
                 Playliste valgtPlayliste = playlisteComboBox.getValue();
-                if (valgtPlayliste == null) return;
+                int tid = Integer.parseInt(tidsfelt.getText());
+                valgtPlayliste.setTid(tid);
                 Sang ny = new Sang(titelfelt.getText(), kunstnerfelt.getText(), tid, mp3felt.getText());
                 myTunesController.sangObsListe.add(ny);
                 valgtPlayliste.tilføjSang(ny);
+                valgtPlayliste.antalSangePlus();
+                valgtPlayliste.TidPlus();
+                myTunesController.playlisteTableview.refresh();
+
             } catch (NumberFormatException e) {
                 System.out.println("tid skal være et helt tal");
             }
@@ -67,5 +74,47 @@ public class SangManage extends Dialogvindue {
     @Override
     void gem() {
 
+    }
+
+    public void redigerSang(Sang s) {
+
+        Dialog<ButtonType> dialogvindue = new Dialog<>();
+        dialogvindue.setTitle("Rediger sang");
+        dialogvindue.setHeaderText("Sang");
+        dialogvindue.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        titelfelt.setText(s.getSangTitel());
+        kunstnerfelt.setText(s.getSangKunstner());
+        tidsfelt.setText(String.valueOf(s.getSangTid()));
+        mp3felt.setText(s.getMp3fil());
+        mp3felt.setEditable(false);
+
+        Button mp3knap = new Button("Vælg fil");
+        mp3knap.setOnAction(e -> {
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File("src/main/resources/com/example/mytunes/MP3"));
+            File valgt = fc.showOpenDialog(dialogvindue.getDialogPane().getScene().getWindow());
+            if (valgt != null) {
+                mp3felt.setText(valgt.getName());
+            }
+        });
+
+        VBox box = new VBox(10, titelfelt, kunstnerfelt, tidsfelt, new HBox(5, mp3felt, mp3knap));
+        dialogvindue.getDialogPane().setContent(box);
+
+        Optional<ButtonType> knap = dialogvindue.showAndWait();
+
+        if (knap.isPresent() && knap.get() == ButtonType.OK) {
+            try {
+                s.setSangTitel(titelfelt.getText());
+                s.setSangKunstner(kunstnerfelt.getText());
+                s.setSangTid(Integer.parseInt(tidsfelt.getText()));
+                s.setMp3fil(mp3felt.getText());
+                myTunesController.sangeTableview.refresh();
+                myTunesController.sangeTableview.sort();
+            } catch (NumberFormatException e) {
+                System.out.println("tid skal være et helt tal");
+            }
+        }
     }
 }

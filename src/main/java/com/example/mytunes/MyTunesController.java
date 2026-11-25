@@ -7,14 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+
 import javafx.scene.text.Text;
+
+import java.util.Optional;
 
 public class MyTunesController {
 
@@ -47,7 +48,7 @@ public class MyTunesController {
     private TableColumn<PlaylisteSange, String> playlisteSangeKolonne;
 
     @FXML
-    private TableView<Playliste> playlisteTableview;
+    public TableView<Playliste> playlisteTableview;
 
     @FXML
     //ret integer til hvad vi gør for " 00:00 "
@@ -73,7 +74,7 @@ public class MyTunesController {
     private TableColumn<Sang, Integer> sangTidKolonne;
 
     @FXML
-    private TableView<Sang> sangeTableview;
+    public TableView<Sang> sangeTableview;
 
     @FXML
     private Text sangeTitel;
@@ -107,6 +108,7 @@ public class MyTunesController {
 
     public final ObservableList<Sang> sangObsListe = FXCollections.observableArrayList();
     public final ObservableList<Playliste> playlisteObsListe = FXCollections.observableArrayList();
+    Playliste playliste = new Playliste("", 0, 0);
 
     public void initialize() {
         sangKolonne.setCellValueFactory(new PropertyValueFactory<Sang, String>("sangTitel"));
@@ -120,8 +122,6 @@ public class MyTunesController {
         playlisteSangeKolonne.setCellValueFactory(new PropertyValueFactory<PlaylisteSange, String>("sangInfoPlayliste"));
 
         sangObsListe.add(new Sang("Baby", "Justin Bieber", 223, "12"));
-        Playliste p1 = new Playliste("Groovy", 0, 0);
-        playlisteObsListe.add(new Playliste("Groovy", 0, 0));
 
 
         playlisteTableview.setItems(playlisteObsListe);
@@ -142,14 +142,15 @@ public class MyTunesController {
     @FXML
     void nyPlayliste(ActionEvent event) {
 
+        new PlaylisteManage(this, playliste).tilføjPlayliste();
+
     }
 
     @FXML
     void nySang(ActionEvent event) {
 
-        new SangManage(this).tilføjSang();
-
-        }
+        new SangManage(this).tilføjSang();;
+    }
 
 
 
@@ -161,20 +162,40 @@ public class MyTunesController {
     @FXML
     void redigerPlayliste(ActionEvent event) {
 
+        Playliste p = playlisteTableview.getSelectionModel().getSelectedItem();
+        if (p != null)
+            redigerLinjePlayliste(p);
+
     }
 
     @FXML
     void redigerSang(ActionEvent event) {
 
+        Sang s = sangeTableview.getSelectionModel().getSelectedItem();
+        if (s != null)
+            redigerLinjeSang(s);
+
     }
+
+
 
     @FXML
     void sletPlayliste(ActionEvent event) {
+
+        Playliste valgt = playlisteTableview.getSelectionModel().getSelectedItem();
+        if (valgt != null) {
+            playlisteObsListe.remove(valgt);
+        }
 
     }
 
     @FXML
     void sletSang(ActionEvent event) {
+
+        Sang valgt = sangeTableview.getSelectionModel().getSelectedItem();
+        if (valgt != null) {
+            sangObsListe.remove(valgt);
+        }
 
     }
 
@@ -182,6 +203,7 @@ public class MyTunesController {
     void sletSangPlaylist(ActionEvent event) {
 
     }
+
     private static MediaPlayer mediaPlayer;
     @FXML
     void startPauseKnap(ActionEvent event) {
@@ -204,6 +226,18 @@ public class MyTunesController {
         MenuItem tilføjTilPlayliste = new MenuItem("Tilføj til playliste");
         cm.getItems().addAll(afspil, tilføjTilPlayliste);
         cm.show(række,mouseEvent.getX(),mouseEvent.getY());
+
+    }
+
+    private void redigerLinjeSang(Sang s) {
+
+        new SangManage(this).redigerSang(s);
+
+    }
+
+    private void redigerLinjePlayliste(Playliste p) {
+
+        new PlaylisteManage(this, p).redigerSang(p);
 
     }
 }
