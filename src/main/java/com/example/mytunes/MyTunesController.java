@@ -141,8 +141,9 @@ public class MyTunesController {
     @FXML
     void nySang(ActionEvent event) {
 
-        SangManage.tilføjSang();
-    }
+        new SangManage(this).tilføjSang();
+
+        }
 
 
 
